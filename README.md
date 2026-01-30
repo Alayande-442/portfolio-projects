@@ -59,8 +59,8 @@ The goal is to present not just _what I built_, but **how I think as an engineer
 
 ### Frontend
 
-- **Next.js 14 (App Router)**
-- **TypeScript**
+- **React.js**
+- **JavaScript**
 - **Tailwind CSS**
 - **Framer Motion** (micro‑interactions)
 - **Three.js / @react-three/fiber**
@@ -82,7 +82,7 @@ The goal is to present not just _what I built_, but **how I think as an engineer
 ## Architecture Overview
 
 ```
-Browser (Next.js)
+Browser (React.js)
    ↓
 Server Actions / API Routes
    ↓
@@ -115,7 +115,7 @@ The visual identity is intentionally minimal, calm, and professional — inspire
 npm install
 
 # Run development server
-npm run dev/ npx next dev
+npm run dev
 ```
 
 Environment variables are required for Gemini access:
