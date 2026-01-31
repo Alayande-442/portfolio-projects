@@ -1,8 +1,10 @@
+import Hero from "./sections/Hero";
+
 const App = () => {
   return (
     <main>
       <div>
-        <h1>My Portfolio</h1>
+        <Hero />
       </div>
     </main>
   );
