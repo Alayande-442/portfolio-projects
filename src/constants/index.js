@@ -249,9 +249,9 @@ const testimonials = [
 
 const socialImgs = [
   {
-    name: "insta",
-    url: "https://www.instagram.com/",
-    imgPath: "/images/insta.png",
+    name: "linkedin",
+    url: "www.linkedin.com/in/ollygram442",
+    imgPath: "/images/linkedin.png",
   },
   {
     name: "fb",
@@ -260,13 +260,13 @@ const socialImgs = [
   },
   {
     name: "x",
-    url: "https://www.x.com/",
+    url: "https://x.com/ollygram442/",
     imgPath: "/images/x.png",
   },
   {
-    name: "linkedin",
-    url: "https://www.linkedin.com/",
-    imgPath: "/images/linkedin.png",
+    name: "github",
+    url: "https://github.com/Alayande-442",
+    imgPath: "/images/github.png",
   },
 ];
 

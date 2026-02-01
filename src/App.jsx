@@ -7,6 +7,7 @@ import WorkExperienceSection from "./sections/WorkExperienceSection";
 import TechStack from "./sections/TechStack";
 import Testimonials from "./sections/Testimonials";
 import Contact from "./sections/Contact";
+import Footer from "./sections/Footer";
 const App = () => {
   return (
     <main>
@@ -20,6 +21,7 @@ const App = () => {
         <TechStack />
         <Testimonials />
         <Contact />
+        <Footer />
       </div>
     </main>
   );
