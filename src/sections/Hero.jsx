@@ -1,17 +1,44 @@
 import Button from "../components/Button";
 import { words } from "../constants/index";
 import Hero3DModel from "../components/Hero3D/Hero3DModel";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import AnimatedCounter from "../components/AnimatedCounter";
 
 function Hero() {
+    useGSAP(() => {
+        gsap.fromTo(".hero-text, h1", 
+          {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            stagger: 0.1,
+        },
+        {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power1.out",
+            stagger: 1,
+        }
+    );
+    });
   return (
-    <section id="hero" className="relative overflow-hidden">
-      <h2>Hi, I'm Olaoluwa</h2>
-      <div className="absolute top-0 left-0 z-10"></div>
-      <img src="/images/bg.png" alt="background" />
-      <div className="hero-layout">
+    <section id="hero" className="relative overflow-hidden min-h-screen flex flex-col justify-center">
+      {/* Background — absolutely positioned so it doesn't push content down */}
+      <img
+        src="/images/bg.png"
+        alt="background"
+        className="absolute inset-0 h-[80vh] object-contain z-0"
+      />
+
+      {/* Main two-column layout — sits above the background */}
+      <div className="hero-layout relative z-10 flex flex-col md:flex-row items-center justify-between w-full px-5 md:px-20 gap-10">
+
         {/* LEFT HERO SECTION */}
-        <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
-          <div className="flex flex-col gap-7">
+        <header className="flex flex-col justify-center w-full md:w-1/2">
+          <div className="flex flex-col gap-5">
             <div className="hero-text">
               <h1>
                 Transforming{" "}
@@ -28,7 +55,7 @@ function Hero() {
                         <img
                           src={word.imgPath}
                           alt={word.text}
-                          className="size-8 md:size-10 icon-globe-glow object-contain"
+                          className="size-8 md:size-10 icon-globe-glow"
                         />
                       </div>
                     ))}
@@ -38,12 +65,14 @@ function Hero() {
               <h1>Into Tangible Projects</h1>
               <h1>That Drive Growth</h1>
             </div>
-            <p className="text-gray-400 md:text-xl relative z-10 pointer-events-none">
-              I’m Alayande Olaoluwa, a Full-Stack Engineer focused on agentic AI,
+
+            <p className="text-gray-400 md:text-xl">
+              I'm Alayande Olaoluwa, a Full-Stack Engineer focused on agentic AI,
               automation, and building scalable, optimized systems.
             </p>
           </div>
-          {/* Buttons container */}
+
+          {/* Buttons */}
           <div className="flex gap-4 mt-8 flex-wrap">
             <Button
               className="md:w-80 md:h-16 w-60 h-12"
@@ -57,13 +86,15 @@ function Hero() {
             />
           </div>
         </header>
+
         {/* RIGHT HERO SECTION */}
-        <figure>
-          <div className="hero-3d-layout border-red-200 border-2">
+        <figure className="w-full md:w-1/2 flex items-center justify-center">
+          <div className="hero-3d-layout w-full max-w-[700px] mt-10">
             <Hero3DModel />
           </div>
         </figure>
       </div>
+      <AnimatedCounter />
     </section>
   );
 }
