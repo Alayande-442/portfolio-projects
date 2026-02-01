@@ -1,90 +1,936 @@
+/* index.css */
 @import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
 @import "tailwindcss";
 
 :root {
-  --bg-main: #030712; 
-  --bg-surface: #080d1d; 
-  --text-primary: #ffffff;
-  
-  /* The "Gemini" Cyan used for the Globe and Text Glow */
-  --accent-glow: #00e5ff;
+  --gradient: radial-gradient(circle, #11172e 0%, #070b17 100%);
+}
 
-  /* BUTTON COLORS (Extracted from "Explore My Work" in your image) */
-  --btn-navy-bg: #112a45;      /* The solid deep blue base */
-  --btn-border-cyan: #1e3a5f;  /* The subtle blue-tinted border */
-  --btn-hover-glow: #00d4ff;   /* Brighter cyan for the hover state */
+:root[data-theme="light"] {
+  --gradient: radial-gradient(circle, #ffffff 0%, #eef3ff 100%);
+
+  /* Whites */
+  --color-white-50: #0b1022;
+
+  /* Light backgrounds */
+  --color-black-50: #d6e2ff;
+  --color-black-100: #f4f7ff;
+  --color-black-200: #ffffff;
+
+  /* Blues */
+  --color-blue-50: #3ba4ff;
+  --color-blue-100: #eaf1ff;
+}
+html[data-theme="light"],
+html[data-theme="light"] body {
+  background-color: #f4f7ff;
+  color: #0b1022;
+}
+
+html,
+body {
+  width: 100dvw;
+  overflow-x: hidden;
+  background-color: #06091a;
+  color: #eaf2ff;
+  scroll-behavior: smooth;
+  font-family: "Mona Sans", sans-serif;
+}
+
+/* ─── Top Accent Bar (cyan → blue → purple gradient strip) ─── */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #5ee7ff 20%,
+    #3ba4ff 50%,
+    #6d5cff 80%,
+    transparent 100%
+  );
+  z-index: 1000;
+}
+
+section {
+  width: 100dvw;
 }
 
 @theme {
   --font-sans: "Mona Sans", sans-serif;
-  --color-accent-glow: var(--accent-glow);
-  --color-btn-navy: var(--btn-navy-bg);
-}
 
-html, body {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  font-family: "Mona Sans", sans-serif;
+  /* Whites / text */
+  --color-white-50: #eaf2ff;
+  --color-white-muted: #7a8fb5; /* sub-text, descriptions */
+  --color-white-subtle: #c5d4ef; /* nav links, secondary labels */
+
+  /* Blacks / backgrounds */
+  --color-black-50: #1e2d55; /* card borders, subtle borders */
+  --color-black-100: #0b1022; /* page base (hero area) */
+  --color-black-200: #0d1330; /* card backgrounds */
+  --color-black-300: #06091a; /* deepest page bg */
+
+  /* Blues / accents */
+  --color-blue-50: #5ee7ff; /* cyan accent — icons, glows */
+  --color-blue-100: #0f1a3a; /* dark blue input/field bg */
+  --color-blue-200: #2563eb; /* CTA primary button bg */
+  --color-blue-300: #3ba4ff; /* mid-blue accent */
+
+  /* Purples */
+  --color-purple-50: #6d5cff; /* gradient end accent */
 }
 
 @layer utilities {
-  /* Globe Text Effect (Cyan Gradient) */
-  .text-globe-gradient {
-    background: linear-gradient(to bottom, #ffffff 0%, #00e5ff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.4));
+  .flex-center {
+    @apply flex justify-center items-center;
   }
-
-  /* Globe Icon Effect (Cyan Glow) */
-  .icon-globe-glow {
-    filter: brightness(0) saturate(100%) invert(71%) sepia(91%) saturate(3048%)
-      hue-rotate(148deg) brightness(107%) contrast(106%)
-      drop-shadow(0 0 8px rgba(0, 229, 255, 0.8));
+  .flex-col-center {
+    @apply flex flex-col justify-center items-center;
+  }
+  /* Muted text utility matching screenshot sub-text color */
+  .text-muted {
+    color: #7a8fb5;
+  }
+  .text-subtle {
+    color: #c5d4ef;
   }
 }
 
 @layer components {
-  /* --- THE IMAGE-MATCHED BUTTON --- */
+  .padding-x {
+    @apply px-5 md:px-10;
+  }
+
+  .padding-x-lg {
+    @apply px-5 md:px-20;
+  }
+
+  .section-padding {
+    @apply px-5 md:px-10 md:mt-40 mt-20;
+  }
+
+  .mt-responsive {
+    @apply xl:mt-20 md:mt-0 mt-40;
+  }
+
+  /* ─── General Grids ─── */
+  .grid-base {
+    @apply grid grid-cols-1;
+  }
+
+  .grid-2-cols {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+  }
+
+  .grid-3-cols {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6;
+  }
+
+  .grid-3-cols-md-tight {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0;
+  }
+
+  .grid-4-cols {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-7;
+  }
+
+  .grid-12-cols {
+    @apply grid grid-cols-1 xl:grid-cols-12 gap-10;
+  }
+
+  /* ─── Hero ─── */
+  .hero-layout {
+    @apply relative z-10 xl:mt-20 mt-32 md:h-dvh h-[80vh]
+           flex flex-col md:flex-row
+           items-center md:justify-between
+           w-full gap-10;
+  }
+
+  .hero-text {
+    @apply flex flex-col justify-center md:text-[60px] text-[30px] font-bold relative z-10 pointer-events-none;
+    color: #eaf2ff;
+
+    /* Sub-paragraph under headline */
+    p {
+      color: #7a8fb5;
+      @apply text-sm md:text-base mt-4 leading-relaxed;
+      font-weight: 400;
+    }
+
+    /* Animated sliding words — locked to btn-primary blue */
+    .text-globe-gradient {
+      color: #2563eb;
+    }
+
+    /* Animated sliding icons — <img> SVGs tinted to #2563eb via filter */
+    .icon-globe-glow {
+      filter: invert(37%) sepia(90%) saturate(1600%) hue-rotate(210deg)
+        brightness(95%);
+    }
+
+    img {
+      @apply size-8 md:size-10 object-contain;
+    }
+    .slide {
+      @apply absolute pt-0 px-2 md:px-5 py-[30px] h-[48px] md:h-[78px] md:translate-y-1 translate-y-0 overflow-hidden;
+    }
+  }
+
+  .hero-badge {
+    @apply py-2 px-4 rounded-full w-fit text-sm md:text-base text-nowrap;
+    background-color: #111827;
+    border: 1px solid #1e2d55;
+    color: #eaf2ff;
+  }
+
+  .hero-3d-layout {
+    @apply xl:w-[70%] w-full h-full min-h-[50vh] absolute xl:-top-20 top-24 xl:-right-20 right-0;
+  }
+
+  /* ─── Navbar ─── */
+  .navbar {
+    @apply fixed w-full left-1/2 py-5 px-5 md:px-20 -translate-x-1/2 z-[100] transition-all duration-300 ease-in-out;
+
+    &.scrolled {
+      @apply top-0;
+      background-color: rgba(6, 9, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1e2d55;
+    }
+
+    &.not-scrolled {
+      @apply md:top-10 top-0 bg-transparent;
+    }
+
+    .inner {
+      @apply mx-auto flex items-center justify-between;
+    }
+
+    .logo {
+      @apply text-xl md:text-2xl font-semibold transition-transform duration-300 hover:scale-105;
+      color: #eaf2ff;
+
+      /* "AI Systems Engineer" subtitle next to logo */
+      span.logo-subtitle {
+        color: #6b7da3;
+        @apply text-xs md:text-sm font-normal ml-2;
+      }
+    }
+
+    nav.desktop {
+      @apply hidden lg:flex items-center;
+
+      ul {
+        @apply flex space-x-8;
+
+        li {
+          @apply relative;
+
+          span {
+            color: #c5d4ef;
+            @apply transition-colors duration-300 hover:text-white;
+          }
+
+          .underline {
+            @apply absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full;
+            background-color: #5ee7ff;
+          }
+        }
+      }
+    }
+
+    .contact-btn {
+      @apply flex;
+
+      .inner {
+        @apply px-5 py-2 rounded-lg transition-colors duration-300;
+        background-color: #2563eb;
+        color: #ffffff;
+
+        &:hover {
+          background-color: #1d4ed8;
+        }
+
+        span {
+          color: #ffffff;
+          @apply transition-colors duration-300;
+        }
+      }
+    }
+  }
+
+  /* ─── What I Build — Service Cards ─── */
+  .service-card {
+    @apply rounded-xl p-5 md:p-6 transition-all duration-500 relative overflow-hidden;
+    background-color: #0d1330;
+    border: 1px solid #1e2d55;
+
+    /* Subtle inner glow on hover */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: radial-gradient(
+        circle at 20% 50%,
+        rgba(94, 231, 255, 0.06),
+        transparent 60%
+      );
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    &:hover {
+      border-color: #2a4a8a;
+
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    .service-icon-wrapper {
+      @apply size-10 md:size-12 rounded-lg flex justify-center items-center mb-4;
+      background-color: rgba(94, 231, 255, 0.08);
+      border: 1px solid rgba(94, 231, 255, 0.15);
+
+      img,
+      svg {
+        @apply size-5 md:size-6;
+        /* Icons render in cyan */
+        filter: drop-shadow(0 0 4px rgba(94, 231, 255, 0.4));
+      }
+    }
+
+    h3 {
+      color: #eaf2ff;
+      @apply text-base md:text-lg font-semibold mb-2;
+    }
+
+    p {
+      color: #7a8fb5;
+      @apply text-sm leading-relaxed;
+    }
+  }
+
+  /* ─── Counter / Stat Cards ─── */
+  .counter-card {
+    @apply rounded-xl p-5 md:p-6 flex flex-col justify-center relative overflow-hidden transition-all duration-500;
+    background-color: #0d1330;
+    border: 1px solid #1e2d55;
+
+    /* Cyan radial glow — same system as .service-card */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: radial-gradient(
+        circle at 30% 40%,
+        rgba(94, 231, 255, 0.07),
+        transparent 60%
+      );
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    &:hover {
+      border-color: #2a4a8a;
+
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    .counter-number {
+      color: #eaf2ff;
+      @apply text-4xl md:text-5xl font-bold relative z-10;
+    }
+
+    .counter-label {
+      color: #7a8fb5;
+      @apply text-sm mt-2 relative z-10;
+    }
+  }
+
+  /* ─── Hero Buttons ─── */
+  .btn-primary {
+    @apply px-5 py-3 rounded-lg font-semibold text-sm md:text-base transition-all duration-300;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+
+    &:hover {
+      background-color: #1d4ed8;
+      box-shadow: 0 0 18px rgba(37, 99, 235, 0.35);
+    }
+  }
+
+  .btn-outline {
+    @apply px-5 py-3 rounded-lg font-semibold text-sm md:text-base transition-all duration-300;
+    background-color: transparent;
+    color: #eaf2ff;
+    border: 1px solid #2a3f6b;
+
+    &:hover {
+      border-color: #3ba4ff;
+      color: #ffffff;
+      background-color: rgba(59, 164, 255, 0.06);
+    }
+  }
+
+  /* ─── Case Study Card ─── */
+  .case-study-card {
+    @apply rounded-xl p-5 md:p-8 relative overflow-hidden;
+    background-color: #0d1330;
+    border: 1px solid #1e2d55;
+
+    /* Left cyan accent border */
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        #5ee7ff 30%,
+        #3ba4ff 70%,
+        transparent 100%
+      );
+      border-radius: 12px 0 0 12px;
+    }
+
+    .case-study-layout {
+      @apply flex xl:flex-row flex-col gap-6 xl:gap-10;
+    }
+
+    .case-study-text {
+      @apply flex-1;
+
+      h2 {
+        color: #eaf2ff;
+        @apply text-xl md:text-2xl lg:text-3xl font-bold mb-4;
+      }
+
+      .label {
+        color: #eaf2ff;
+        @apply text-sm font-semibold mt-4 mb-1;
+      }
+
+      p {
+        color: #7a8fb5;
+        @apply text-sm leading-relaxed;
+      }
+
+      .stack-list {
+        color: #7a8fb5;
+        @apply text-sm;
+
+        span {
+          color: #5ee7ff;
+          @apply font-medium;
+        }
+      }
+    }
+
+    .case-study-image {
+      @apply xl:w-[45%] w-full rounded-lg overflow-hidden;
+      min-height: 240px;
+
+      img {
+        @apply w-full h-full object-cover;
+      }
+    }
+  }
+
+  /* ─── "Learn More & Explain With AI" CTA Button ─── */
+  .btn-case-study-cta {
+    @apply inline-flex items-center gap-3 px-5 py-3 rounded-lg mt-5 transition-all duration-300;
+    background-color: #0d1330;
+    border: 1px solid #1e2d55;
+    color: #eaf2ff;
+    font-size: 0.875rem;
+    font-weight: 600;
+
+    .cta-icon {
+      color: #5ee7ff;
+      @apply text-base;
+    }
+
+    .cta-chevron {
+      color: #5ee7ff;
+      @apply text-sm ml-1 transition-transform duration-300;
+    }
+
+    &:hover {
+      border-color: #2a4a8a;
+      background-color: #111a3a;
+
+      .cta-chevron {
+        transform: translateX(3px);
+      }
+    }
+  }
+
+  /* ─── App Showcase / Portfolio ─── */
+  .app-showcase {
+    @apply w-full mt-20 px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
+
+    .showcaselayout {
+      @apply flex xl:flex-row flex-col gap-10 justify-between;
+    }
+
+    .first-project-wrapper {
+      @apply h-full flex flex-col justify-between xl:w-[60%];
+
+      .image-wrapper {
+        @apply xl:h-[70vh] md:h-[50vh] h-96 relative rounded-xl overflow-hidden;
+        border: 1px solid #1e2d55;
+
+        img {
+          @apply w-full h-full object-cover rounded-xl absolute inset-0;
+        }
+      }
+
+      .text-content {
+        @apply space-y-5 mt-5;
+
+        .badges {
+          @apply flex gap-2 mb-4;
+        }
+
+        /* Badge pill styling */
+        .badge {
+          @apply px-3 py-1 rounded-full text-xs font-medium;
+          background-color: rgba(94, 231, 255, 0.1);
+          border: 1px solid rgba(94, 231, 255, 0.2);
+          color: #5ee7ff;
+        }
+
+        h2 {
+          color: #eaf2ff;
+          @apply text-2xl md:text-3xl lg:text-4xl font-bold;
+        }
+
+        p {
+          color: #7a8fb5;
+        }
+      }
+    }
+
+    .project-list-wrapper {
+      @apply flex md:flex-row flex-col xl:flex-col gap-10 xl:w-[40%];
+
+      .project-card {
+        @apply rounded-xl overflow-hidden;
+        border: 1px solid #1e2d55;
+        background-color: #0d1330;
+        transition: border-color 0.4s ease;
+
+        &:hover {
+          border-color: #2a4a8a;
+        }
+      }
+
+      .image-wrapper {
+        @apply xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-t-xl overflow-hidden;
+      }
+
+      img {
+        @apply w-full h-full object-contain;
+      }
+
+      h2 {
+        color: #eaf2ff;
+        @apply text-lg md:text-xl lg:text-2xl font-semibold mt-5 px-4;
+      }
+    }
+  }
+
+  /* ─── CTA Wrapper & Button (original animated style) ─── */
+  .cta-wrapper {
+    @apply relative z-20 cursor-pointer;
+  }
+
   .cta-button {
-    @apply relative flex items-center justify-center px-8 py-3 rounded-md transition-all duration-300 overflow-hidden;
-    background-color: var(--btn-navy-bg); /* Match the image button color */
-    border: 1px solid var(--btn-border-cyan);
-    color: white;
-    font-weight: 500;
+    @apply px-4 py-4 rounded-lg flex justify-center items-center relative cursor-pointer overflow-hidden;
+    background-color: #0d1330;
+    border: 1px solid #1e2d55;
+
+    .bg-circle {
+      @apply absolute -right-10 origin-center top-1/2 -translate-y-1/2
+        w-[120%] h-[120%] group-hover:size-10 group-hover:right-10
+        rounded-full transition-all duration-500;
+      background-color: #eaf2ff;
+    }
+
+    .text {
+      @apply uppercase md:text-lg font-semibold transition-all duration-500
+        group-hover:-translate-x-5 xl:translate-x-0 -translate-x-5;
+      color: #000000;
+
+      .group:hover & {
+        color: #eaf2ff;
+      }
+    }
+
+    .arrow-wrapper {
+      @apply size-10 rounded-full absolute right-10 top-1/2
+        -translate-y-1/2 flex justify-center items-center overflow-hidden;
+      border: 1px solid #1e2d55;
+
+      .group:hover & {
+        background-color: #eaf2ff;
+        border-color: transparent;
+      }
+
+      img {
+        @apply size-5 xl:-translate-y-32 translate-y-0 animate-bounce transition-all duration-500;
+
+        .group:hover & {
+          transform: translateY(0);
+        }
+      }
+    }
   }
 
-  .cta-button:hover {
-    border-color: var(--btn-hover-glow);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); /* Adds the glow from the image */
-    transform: translateY(-1px);
+  /* ─── Card Border (generic) ─── */
+  .card-border {
+    @apply rounded-xl;
+    border: 1px solid #1e2d55;
+    background-color: #0d1330;
   }
 
-  /* The inner text of the button */
-  .cta-button .text {
-    @apply relative z-10 uppercase tracking-wide text-sm;
+  /* ─── Marquee ─── */
+  .marquee-item {
+    @apply md:w-40 w-32;
   }
 
-  /* --- Navbar Button (Same Style) --- */
-  .navbar .contact-btn .inner {
-    @apply cta-button px-5 py-2;
+  /* ─── Timeline / Experience ─── */
+  .timeline-wrapper {
+    @apply absolute top-0 xl:left-[35.5vw] md:left-10 left-5 h-full flex justify-center;
   }
 
-  /* Slider Logic (Kept from Code 2) */
-  .wrapper {
-    @apply flex flex-col;
-    animation: wordSlider 21s infinite cubic-bezier(0.9, 0.01, 0.3, 0.99);
+  .timeline {
+    @apply absolute z-30 h-[110%] -top-10 w-14 md:w-28;
+    background-color: #06091a;
   }
+
+  .timeline-logo {
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7;
+    border: 1px solid #1e2d55;
+    background-color: #0d1330;
+  }
+
+  .exp-card-wrapper {
+    @apply flex flex-col-reverse xl:flex-row xl:gap-20 gap-10 justify-between;
+  }
+
+  /* ─── Gradient Edges (marquee fade) ─── */
+  .gradient-edge {
+    @apply w-36 h-full absolute bottom-0 z-20;
+  }
+
+  /* ─── Tech Cards ─── */
+  .tech-card-animated-bg {
+    @apply absolute left-0 bottom-[-100%] w-full h-full group-hover:bottom-0 transition-all duration-700;
+    background-color: #0f1a3a;
+  }
+
+  .tech-card-content {
+    @apply flex flex-col md:justify-center items-center xl:gap-5 xl:h-[50vh] overflow-hidden relative z-10 group-hover:cursor-grab;
+
+    p {
+      color: #eaf2ff;
+      @apply text-lg 2xl:text-2xl pb-5 xl:pb-0 font-semibold text-center;
+    }
+  }
+
+  .tech-grid {
+    @apply grid xl:grid-cols-5 md:grid-cols-3 grid-cols-1 xl:gap-16 md:gap-10 gap-5 mt-16;
+  }
+
+  .tech-icon-wrapper {
+    @apply flex justify-center items-center w-52 h-60 relative;
+  }
+
+  /* ─── Form ─── */
+  form {
+    label {
+      color: #eaf2ff;
+      @apply block mb-2;
+    }
+
+    input,
+    textarea {
+      @apply w-full px-4 py-4 md:text-base text-sm rounded-md;
+      background-color: #0f1a3a;
+      border: 1px solid #1e2d55;
+      color: #eaf2ff;
+
+      &::placeholder {
+        color: #4a6080;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #3ba4ff;
+        box-shadow: 0 0 0 2px rgba(59, 164, 255, 0.15);
+      }
+    }
+
+    a {
+      @apply w-full py-4 font-semibold rounded-md flex justify-center items-center gap-2;
+      background-color: #2563eb;
+      color: #ffffff;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #1d4ed8;
+      }
+
+      img {
+        @apply inline-block;
+      }
+    }
+  }
+
+  /* ─── Footer ─── */
+  .footer {
+    @apply my-10 md:mt-20 mt-10 px-5 md:px-20 xl:px-20 flex items-center justify-center;
+    color: #7a8fb5;
+
+    /* Top gradient line mirroring the top accent bar */
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 5%;
+      width: 90%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        #1e2d55 30%,
+        #1e2d55 70%,
+        transparent 100%
+      );
+    }
+
+    .footer-container {
+      @apply grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
+    }
+
+    p {
+      @apply text-center md:text-start text-sm;
+      color: #7a8fb5;
+    }
+
+    .socials {
+      @apply flex items-center justify-center gap-5;
+
+      .icon {
+        @apply flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500;
+        border: 1px solid #1e2d55;
+        background-color: #0d1330;
+        color: #eaf2ff;
+
+        &:hover {
+          background-color: #1e2d55;
+          border-color: #2a4a8a;
+        }
+      }
+
+      img {
+        @apply inline-block;
+      }
+    }
+  }
+
+  /* ─── Section Titles ─── */
+  .section-title {
+    color: #eaf2ff;
+    @apply text-2xl md:text-3xl font-bold mb-6 md:mb-10;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLOBAL / NON-COMPONENT STYLES
+   ═══════════════════════════════════════════════════════ */
+
+/* Hero text slider */
+.slide {
+  display: inline-block;
+  flex-direction: column;
+  transition: all cubic-bezier(0.71, 0.03, 0.34, 1);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  animation: wordSlider 21s infinite cubic-bezier(0.9, 0.01, 0.3, 0.99);
 }
 
 @keyframes wordSlider {
-  0%, 15% { transform: translateY(0%); }
-  50%, 65% { transform: translateY(-50%); }
-  100% { transform: translateY(-100%); }
+  0% {
+    transform: translateY(0.5%);
+  }
+  12.5% {
+    transform: translateY(-12.5%);
+  }
+  25% {
+    transform: translateY(-25%);
+  }
+  37.5% {
+    transform: translateY(-37.5%);
+  }
+  50% {
+    transform: translateY(-50%);
+  }
+  62.5% {
+    transform: translateY(-62.5%);
+  }
+  75% {
+    transform: translateY(-75%);
+  }
+  87.5% {
+    transform: translateY(-87.5%);
+  }
 }
 
-/* Cosmic Card Border logic */
-.card-border {
-  @apply border border-white/10 bg-[#0a101f] rounded-xl hover:border-cyan-500/50 transition-colors;
+@keyframes glow-drift {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-48%, -52%) scale(1.05);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Gradient line (vertical, used in timeline etc.) */
+.gradient-line {
+  width: 2px;
+  background: linear-gradient(
+    0deg,
+    rgba(94, 231, 255, 0) 0%,
+    #5ee7ff 25%,
+    #3ba4ff 45%,
+    #6d5cff 70%,
+    rgba(109, 92, 255, 0) 100%
+  );
+}
+
+/* Gradient edges (horizontal fade masks for marquee) */
+.gradient-edge:nth-of-type(1) {
+  left: 0;
+  background: linear-gradient(90deg, #06091a 0%, rgba(6, 9, 26, 0) 100%);
+}
+
+.gradient-edge:nth-of-type(2) {
+  right: 0;
+  background: linear-gradient(-90deg, #06091a 0%, rgba(6, 9, 26, 0) 100%);
+}
+
+/* ─── Marquee ─── */
+.marquee {
+  width: 100dvw;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-box {
+  display: flex;
+  align-items: center;
+  width: 200%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  animation: marquee 60s linear infinite;
+}
+
+.marquee-item {
+  float: left;
+}
+
+@keyframes marquee {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+/* ─── Interactive Card with rotating border glow ─── */
+.card {
+  --start: 0;
+  position: relative;
+  z-index: 40;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #0d1330;
+  border: 1px solid #1e2d55;
+  transition: border-color 1s ease-in-out;
+}
+
+.card::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: var(--gradient);
+  background-attachment: fixed;
+  mask:
+    linear-gradient(#0000, #0000),
+    conic-gradient(
+      from calc((var(--start) - 15) * 1deg),
+      #ffffff1f 0deg,
+      white,
+      #ffffff00 100deg
+    );
+  mask-composite: intersect;
+  mask-clip: padding-box, border-box;
+  opacity: 0;
+  transition: 0.5s ease;
+}
+
+/* Glow overlay on card hover */
+.glow {
+  pointer-events: none;
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(94, 231, 255, 0.2),
+    rgba(59, 164, 255, 0.1),
+    rgba(109, 92, 255, 0.06),
+    transparent 70%
+  );
+  filter: blur(40px);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.card:hover .glow {
+  opacity: 1;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
