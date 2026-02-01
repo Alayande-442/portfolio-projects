@@ -1,13 +1,49 @@
+import { useEffect, useState } from "react";
+import { navLinks } from "../constants";
+
 const NavBar = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      setScrolled(true);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <nav>
-      <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Services</li>
-        <li>Contact</li>
-      </ul>
-    </nav>
+    <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
+      <div className="inner">
+        <a className="logo" href="#hero">
+          Alayande Olaoluwa
+        </a>
+
+        <nav className="desktop">
+          <ul>
+            {navLinks.map(({ link, name }) => (
+              <li key={name} className="group">
+                <a href={link} className="relative">
+                  <span>{name}</span>
+                  <span className="underline" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <a className="contact-btn" href="#contact">
+          <div className="contact-btn-inner">
+            <span>Contact</span>
+          </div>
+        </a>
+      </div>
+    </header>
   );
 };
 

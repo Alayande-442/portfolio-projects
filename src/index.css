@@ -225,19 +225,19 @@ section {
       @apply hidden lg:flex items-center;
 
       ul {
-        @apply flex space-x-8;
+        @apply flex space-x-10;
 
         li {
-          @apply relative;
-
           span {
             color: #c5d4ef;
             @apply transition-colors duration-300 hover:text-white;
           }
 
-          .underline {
-            @apply absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full;
-            background-color: #5ee7ff;
+          a {
+            .underline {
+              @apply absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full;
+              background-color: #5ee7ff;
+            }
           }
         }
       }
@@ -246,18 +246,18 @@ section {
     .contact-btn {
       @apply flex;
 
-      .inner {
-        @apply px-5 py-2 rounded-lg transition-colors duration-300;
+      .contact-btn-inner {
+        @apply px-5 py-2 rounded-lg transition-all duration-300;
         background-color: #2563eb;
         color: #ffffff;
 
         &:hover {
           background-color: #1d4ed8;
+          box-shadow: 0 0 18px rgba(37, 99, 235, 0.35);
         }
 
         span {
           color: #ffffff;
-          @apply transition-colors duration-300;
         }
       }
     }
