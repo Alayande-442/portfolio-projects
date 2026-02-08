@@ -40,7 +40,7 @@ function Hero() {
       <div className="hero-layout px-5 md:px-20">
         {/* LEFT — headline + description + buttons */}
         <header className="flex flex-col justify-center w-full md:w-1/2">
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-3">
             <div className="hero-text">
               <h1>
                 Transforming{" "}
@@ -49,7 +49,7 @@ function Hero() {
                     {words.map((word, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-4 h-[48px] md:h-[78px]"
+                        className="flex items-center gap-1 h-[48px] md:h-[78px]"
                       >
                         <span className="text-globe-gradient font-bold">
                           {word.text}
@@ -57,7 +57,7 @@ function Hero() {
                         <img
                           src={word.imgPath}
                           alt={word.text}
-                          className="size-8 md:size-10 icon-globe-glow"
+                          className="size-4 md:size-6 icon-globe-glow"
                         />
                       </div>
                     ))}
@@ -83,18 +83,18 @@ function Hero() {
               className="md:w-80 md:h-16 w-60 h-12"
               text="Explore my work"
             />
-            <Button
-              variant="outline"
-              scrollTarget="counter"
-              className="md:w-80 md:h-16 w-60 h-12"
-              text="Ask my portfolio"
-            />
+           <Button
+  variant="glow"
+  scrollTarget="counter"
+  className="md:w-80 md:h-16 w-60 h-12"
+  text="Ask my portfolio"
+/>
           </div>
         </header>
 
         {/* RIGHT — 3D model */}
         <figure className="w-full md:w-1/2 flex items-center justify-center">
-          <div className="hero-3d-layout w-full max-w-[700px] mt-10">
+          <div className="hero-3d-layout w-full max-w-[800px] mt-10">
             <Hero3DModel />
           </div>
         </figure>

@@ -36,8 +36,55 @@ function Button({ text, variant = "animated", scrollTarget, className = "" }) {
     );
   }
 
-  // ─── "animated" (default) — the dark CTA with bg-circle + arrow ───
-  // Used for "Learn More & Explain With AI" style buttons elsewhere.
+  // ─── "glow" — hero orb–style glowing outline CTA ──────────────────
+  if (variant === "glow") {
+    return (
+      <a
+        href="#"
+        onClick={handleClick}
+        className={`
+          relative group flex items-center justify-center
+          rounded-xl font-medium
+          border border-cyan-400/30
+          text-cyan-200
+          bg-transparent
+          transition-all duration-500
+          hover:border-cyan-300
+          ${className}
+        `}
+      >
+        {/* Glow aura */}
+        <span
+          className="
+            absolute inset-0 rounded-xl
+            bg-gradient-to-br
+            from-cyan-400/20 via-blue-500/20 to-violet-500/20
+            opacity-60 blur-xl
+            group-hover:opacity-100
+            transition duration-500
+            pointer-events-none
+          "
+        />
+
+        {/* Inner glass layer */}
+        <span
+          className="
+            absolute inset-0 rounded-xl
+            bg-[#0b1020]/70
+            backdrop-blur-md
+            pointer-events-none
+          "
+        />
+
+        {/* Text */}
+        <span className="relative z-10">
+          {text}
+        </span>
+      </a>
+    );
+  }
+
+  // ─── "animated" (default) — existing CTA ──────────────────────────
   return (
     <a href="#" onClick={handleClick} className="cta-wrapper">
       <div className="cta-button group">

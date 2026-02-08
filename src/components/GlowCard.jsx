@@ -1,46 +1,77 @@
 import { useRef } from "react";
 
-const GlowCard = ({ card, index, children }) => {
-  const cardRefs = useRef([]);
+const GlowCard = ({ card, index = 0, children }) => {
+  const cardRef = useRef(null);
 
-  const handleMouseMove = (index) => (e) => {
-    const cardEl = cardRefs.current[index];
-    if (!cardEl) return;
+  const handleMouseMove = (e) => {
+    const el = cardRef.current;
+    if (!el) return;
 
-    const rect = cardEl.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left - rect.width / 2;
-    const mouseY = e.clientY - rect.top - rect.height / 2;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-    let angle = Math.atan2(mouseY, mouseX) * (180 / Math.PI);
-    angle = (angle + 360) % 360;
-    cardEl.style.setProperty("--start", angle + 60);
+    el.style.setProperty("--x", `${x}px`);
+    el.style.setProperty("--y", `${y}px`);
   };
 
   return (
     <div
-      ref={(el) => (cardRefs.current[index] = el)}
-      onMouseMove={handleMouseMove(index)}
-      className="card card-border timeline-card rounded-xl p-8 relative overflow-hidden h-full flex flex-col min-h-fit"
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      className="
+        group relative timeline-card
+        rounded-xl p-8 h-full flex flex-col
+        border border-white/10
+        bg-gradient-to-b from-[#0b1020] to-[#070b17]
+        backdrop-blur-md
+        overflow-hidden
+        transition-all duration-500
+        hover:border-cyan-400/50
+        hover:shadow-[0_0_40px_rgba(56,189,248,0.35)]
+      "
     >
-      <div className="glow"></div>
+      {/* Hover glow aura (same as AnimatedCounter) */}
+      <div
+        className="
+          absolute inset-0 rounded-xl opacity-0
+          group-hover:opacity-100
+          transition duration-500
+          bg-gradient-to-br
+          from-cyan-400/15 via-blue-500/15 to-violet-500/15
+          pointer-events-none
+        "
+      />
 
-      {/* Stars Section */}
+      {/* Cursor-reactive inner glow (soft, premium) */}
+      <div
+        className="
+          absolute inset-0 rounded-xl
+          opacity-0 group-hover:opacity-100
+          transition duration-300
+          pointer-events-none
+        "
+        style={{
+          background:
+            "radial-gradient(600px circle at var(--x) var(--y), rgba(56,189,248,0.15), transparent 40%)",
+        }}
+      />
+
+      {/* Stars */}
       <div className="flex items-center gap-1 mb-5 relative z-10">
         {Array.from({ length: 5 }, (_, i) => (
           <img key={i} src="/images/star.png" alt="star" className="size-4" />
         ))}
       </div>
 
-      {/* Content Section */}
+      {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col">
-        {/* Render the review text from the data automatically */}
         {card?.review && (
-          <p className="text-white-50 text-base md:text-lg leading-relaxed mb-5">
+          <p className="text-white/70 text-base md:text-lg leading-relaxed mb-5">
             {card.review}
           </p>
         )}
 
-        {/* Render extra stuff (like images or profiles) passed from the parent */}
         {children}
       </div>
     </div>
